@@ -1,0 +1,613 @@
+Notation:
+
+Na, Nm, Nc, Nh : the number of complete blocks of associated data, plaintext, ciphertext, and hash message, respectively
+
+Ina, Inm, Inc, Inh : binary variables equal to 1 if the last block of the respective data type is incomplete, and 0 otherwise
+
+Bla, Blm, Blc, Blh : the number of bytes in the incomplete block of associated data, plaintext, ciphertext, and hash message, respectively.
+
+          _ 
+ __   __ / |
+ \ \ / / | |
+  \ V /  | |
+   \_/   |_|
+
+
+v1: ascon128v12
+
+a. Design goal
+
+Support for authenticated encryption, decryption, and hashing.
+Performs 1 permutation round per clock cycle.
+No BRAMs, no DSP units.
+All RAMs using asynchronous read.
+
+b. Supported maximum sizes of inputs
+
+unlimited
+
+c. Reference software implementation
+
+Implementations/crypto_aead/ascon128v12/ref
+in https://csrc.nist.gov/CSRC/media/Projects/lightweight-cryptography/documents/round-2/submissions-rnd2/ascon.zip
+
+d. Non-default values of generics and constants
+
+Use the sources from:
+src_rtl/v1
+src_tb/v1
+
+LWC_TB.vhd:
+Make sure the correct KAT file path is commented in.
+
+e. Block sizes
+
+AD block size = 64 bits
+Plaintext/Ciphertext block size = 64 bits
+Hash block size = 64 bits
+
+f. Execution times
+
+Execution time of authenticated encryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//1)                          # init process
++ 1                                # init key add
++ (6//1+2)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(6//1))          # absorb + process incomplete AD block
++ ((Na>0)|(Nm>0)|(Inm>0))*(Ina==0) # absorb empty AD block with padding realize / that there is no AD but MSG
++ 1                                # domain seperation
++ (6//1+2)*Nm                      # absorb + process complete MSG blocks
++ Inm*((Blm+3)//4)                 # absorb incomplete MSG block
++ (Inm==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//1)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
+
+Execution time of authenticated decryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//1)                          # init process
++ 1                                # init key add
++ (6//1+2)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(6//1))          # absorb + process incomplete AD block
++ ((Na>0)|(Nc>0)|(Inc>0))*(Ina==0) # absorb empty AD block with padding / realize that there is no AD but MSG
++ 1                                # domain seperation
++ (6//1+2)*Nc                      # absorb + process complete MSG blocks
++ Inc*((Blc+3)//4)                 # absorb incomplete MSG block
++ (Inc==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//1)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
++ 1                                # wait ack (only decryption)
+
+Execution time of hashing (32-bit interface):
+3                                  # idle
++ 1                                # init hash
++ (12//1)                          # init process
++ (12//1+2)*Nh                     # absorb + process complete Hash blocks
++ Inh*((Blh+3)//4+(12//1))         # absorb + process incomplete Hash block
++ (Inh==0)*(12//1+1)               # absorb empty Hash block with padding
++ (36//1)+8                        # extract Hash
+
+g. Latencies
+
+Latency of authenticated encryption:
+48
+
+Latency of authenticated decryption:
+49
+
+h. Difference between execution times for a new key and the same key
+0
+
+          ____  
+ __   __ |___ \ 
+ \ \ / /   __) |
+  \ V /   / __/ 
+   \_/   |_____|
+
+
+v2: ascon128av12 (1 permutation round per cycle)
+
+a. Design goal
+
+Support for authenticated encryption, decryption, and hashing.
+Performs 1 permutation round per clock cycle.
+No BRAMs, no DSP units.
+All RAMs using asynchronous read.
+
+b. Supported maximum sizes of inputs
+
+unlimited
+
+c. Reference software implementation
+
+Implementations/crypto_aead/ascon128av12/ref
+in https://csrc.nist.gov/CSRC/media/Projects/lightweight-cryptography/documents/round-2/submissions-rnd2/ascon.zip
+
+d. Non-default values of generics and constants
+
+Use the sources from:
+src_rtl/v2
+src_tb/v2
+
+LWC_TB.vhd:
+Make sure the correct KAT file path is commented in.
+
+e. Block sizes
+
+AD block size = 128 bits
+Plaintext/Ciphertext block size = 128 bits
+Hash block size = 64 bits
+
+f. Execution times
+
+Execution time of authenticated encryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//1)                          # init process
++ 1                                # init key add
++ (8//1+4)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(8//1))          # absorb + process incomplete AD block
++ ((Na>0)|(Nm>0)|(Inm>0))*(Ina==0) # absorb empty AD block with padding realize that there is no AD but MSG
++ 1                                # domain seperation
++ (8//1+4)*Nm                      # absorb + process complete MSG blocks
++ Inm*((Blm+3)//4)                 # absorb incomplete MSG block
++ (Inm==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//1)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
+
+Execution time of authenticated decryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//1)                          # init process
++ 1                                # init key add
++ (8//1+4)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(8//1))          # absorb + process incomplete AD block
++ ((Na>0)|(Nc>0)|(Inc>0))*(Ina==0) # absorb empty AD block with padding / realize that there is no AD but MSG
++ 1                                # domain seperation
++ (8//1+4)*Nc                      # absorb + process complete MSG blocks
++ Inc*((Blc+3)//4)                 # absorb incomplete MSG block
++ (Inc==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//1)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
++ 1                                # wait ack (only decryption)
+
+Execution time of hashing (32-bit interface):
+3                                  # idle
++ 1                                # init hash
++ (12//1)                          # init process
++ (12//1+2)*Nh                     # absorb + process complete Hash blocks
++ Inh*((Blh+3)//4+(12//1))         # absorb + process incomplete Hash block
++ (Inh==0)*(12//1+1)               # absorb empty Hash block with padding
++ (36//1)+8                        # extract Hash
+
+g. Latencies
+
+Latency of authenticated encryption:
+48
+
+Latency of authenticated decryption:
+49
+
+h. Difference between execution times for a new key and the same key
+0
+
+          _____ 
+ __   __ |___ / 
+ \ \ / /   |_ \ 
+  \ V /   ___) |
+   \_/   |____/
+
+
+v3: ascon128v12
+
+a. Design goal
+
+Support for authenticated encryption, decryption, and hashing.
+Performs 2 permutation rounds per clock cycle.
+No BRAMs, no DSP units.
+All RAMs using asynchronous read.
+
+b. Supported maximum sizes of inputs
+
+unlimited
+
+c. Reference software implementation
+
+Implementations/crypto_aead/ascon128v12/ref
+in https://csrc.nist.gov/CSRC/media/Projects/lightweight-cryptography/documents/round-2/submissions-rnd2/ascon.zip
+
+d. Non-default values of generics and constants
+
+Use the sources from:
+src_rtl/v3
+src_tb/v3
+
+LWC_TB.vhd:
+Make sure the correct KAT file path is commented in.
+
+e. Block sizes
+
+AD block size = 64 bits
+Plaintext/Ciphertext block size = 64 bits
+Hash block size = 64 bits
+
+f. Execution times
+
+Execution time of authenticated encryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//2)                          # init process
++ 1                                # init key add
++ (6//2+2)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(6//2))          # absorb + process incomplete AD block
++ ((Na>0)|(Nm>0)|(Inm>0))*(Ina==0) # absorb empty AD block with padding realize / that there is no AD but MSG
++ 1                                # domain seperation
++ (6//2+2)*Nm                      # absorb + process complete MSG blocks
++ Inm*((Blm+3)//4)                 # absorb incomplete MSG block
++ (Inm==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//2)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
+
+Execution time of authenticated decryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//2)                          # init process
++ 1                                # init key add
++ (6//2+2)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(6//2))          # absorb + process incomplete AD block
++ ((Na>0)|(Nc>0)|(Inc>0))*(Ina==0) # absorb empty AD block with padding / realize that there is no AD but MSG
++ 1                                # domain seperation
++ (6//2+2)*Nc                      # absorb + process complete MSG blocks
++ Inc*((Blc+3)//4)                 # absorb incomplete MSG block
++ (Inc==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//2)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
++ 1                                # wait ack (only decryption)
+
+Execution time of hashing (32-bit interface):
+3                                  # idle
++ 1                                # init hash
++ (12//2)                          # init process
++ (12//2+2)*Nh                     # absorb + process complete Hash blocks
++ Inh*((Blh+3)//4+(12//2))         # absorb + process incomplete Hash block
++ (Inh==0)*(12//2+1)               # absorb empty Hash block with padding
++ (36//2)+8                        # extract Hash
+
+g. Latencies
+
+Latency of authenticated encryption:
+36
+
+Latency of authenticated decryption:
+37
+
+h. Difference between execution times for a new key and the same key
+0
+
+          _  _   
+ __   __ | || |  
+ \ \ / / | || |_ 
+  \ V /  |__   _|
+   \_/      |_|
+
+
+v4: ascon128av12
+
+a. Design goal
+
+Support for authenticated encryption, decryption, and hashing.
+Performs 2 permutation rounds per clock cycle.
+No BRAMs, no DSP units.
+All RAMs using asynchronous read.
+
+b. Supported maximum sizes of inputs
+
+unlimited
+
+c. Reference software implementation
+
+Implementations/crypto_aead/ascon128av12/ref
+in https://csrc.nist.gov/CSRC/media/Projects/lightweight-cryptography/documents/round-2/submissions-rnd2/ascon.zip
+
+d. Non-default values of generics and constants
+
+Use the sources from:
+src_rtl/v4
+src_tb/v4
+
+LWC_TB.vhd:
+Make sure the correct KAT file path is commented in.
+
+e. Block sizes
+
+AD block size = 128 bits
+Plaintext/Ciphertext block size = 128 bits
+Hash block size = 64 bits
+
+f. Execution times
+
+Execution time of authenticated encryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//2)                          # init process
++ 1                                # init key add
++ (8//2+4)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(8//2))          # absorb + process incomplete AD block
++ ((Na>0)|(Nm>0)|(Inm>0))*(Ina==0) # absorb empty AD block with padding realize that there is no AD but MSG
++ 1                                # domain seperation
++ (8//2+4)*Nm                      # absorb + process complete MSG blocks
++ Inm*((Blm+3)//4)                 # absorb incomplete MSG block
++ (Inm==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//2)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
+
+Execution time of authenticated decryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//2)                          # init process
++ 1                                # init key add
++ (8//2+4)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(8//2))          # absorb + process incomplete AD block
++ ((Na>0)|(Nc>0)|(Inc>0))*(Ina==0) # absorb empty AD block with padding / realize that there is no AD but MSG
++ 1                                # domain seperation
++ (8//2+4)*Nc                      # absorb + process complete MSG blocks
++ Inc*((Blc+3)//4)                 # absorb incomplete MSG block
++ (Inc==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//2)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
++ 1                                # wait ack (only decryption)
+
+Execution time of hashing (32-bit interface):
+3                                  # idle
++ 1                                # init hash
++ (12//2)                          # init process
++ (12//2+2)*Nh                     # absorb + process complete Hash blocks
++ Inh*((Blh+3)//4+(12//2))         # absorb + process incomplete Hash block
++ (Inh==0)*(12//2+1)               # absorb empty Hash block with padding
++ (36//2)+8                        # extract Hash
+
+g. Latencies
+
+Latency of authenticated encryption:
+36
+
+Latency of authenticated decryption:
+37
+
+h. Difference between execution times for a new key and the same key
+0
+
+          ____  
+ __   __ | ___| 
+ \ \ / / |___ \ 
+  \ V /   ___) |
+   \_/   |____/ 
+
+
+v5: ascon128v12
+
+a. Design goal
+
+Support for authenticated encryption, decryption, and hashing.
+Performs 3 permutation rounds per clock cycle.
+No BRAMs, no DSP units.
+All RAMs using asynchronous read.
+
+b. Supported maximum sizes of inputs
+
+unlimited
+
+c. Reference software implementation
+
+Implementations/crypto_aead/ascon128v12/ref
+in https://csrc.nist.gov/CSRC/media/Projects/lightweight-cryptography/documents/round-2/submissions-rnd2/ascon.zip
+
+d. Non-default values of generics and constants
+
+Use the sources from:
+src_rtl/v5
+src_tb/v5
+
+LWC_TB.vhd:
+Make sure the correct KAT file path is commented in.
+
+e. Block sizes
+
+AD block size = 64 bits
+Plaintext/Ciphertext block size = 64 bits
+Hash block size = 64 bits
+
+f. Execution times
+
+Execution time of authenticated encryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//3)                          # init process
++ 1                                # init key add
++ (6//3+2)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(6//3))          # absorb + process incomplete AD block
++ ((Na>0)|(Nm>0)|(Inm>0))*(Ina==0) # absorb empty AD block with padding realize / that there is no AD but MSG
++ 1                                # domain seperation
++ (6//3+2)*Nm                      # absorb + process complete MSG blocks
++ Inm*((Blm+3)//4)                 # absorb incomplete MSG block
++ (Inm==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//3)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
+
+Execution time of authenticated decryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//3)                          # init process
++ 1                                # init key add
++ (6//3+2)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(6//3))          # absorb + process incomplete AD block
++ ((Na>0)|(Nc>0)|(Inc>0))*(Ina==0) # absorb empty AD block with padding / realize that there is no AD but MSG
++ 1                                # domain seperation
++ (6//3+2)*Nc                      # absorb + process complete MSG blocks
++ Inc*((Blc+3)//4)                 # absorb incomplete MSG block
++ (Inc==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//3)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
++ 1                                # wait ack (only decryption)
+
+Execution time of hashing (32-bit interface):
+3                                  # idle
++ 1                                # init hash
++ (12//3)                          # init process
++ (12//3+2)*Nh                     # absorb + process complete Hash blocks
++ Inh*((Blh+3)//4+(12//3))         # absorb + process incomplete Hash block
++ (Inh==0)*(12//3+1)               # absorb empty Hash block with padding
++ (36//3)+8                        # extract Hash
+
+g. Latencies
+
+Latency of authenticated encryption:
+32
+
+Latency of authenticated decryption:
+33
+
+h. Difference between execution times for a new key and the same key
+0
+
+           __   
+ __   __  / /_  
+ \ \ / / | '_ \ 
+  \ V /  | (_) |
+   \_/    \___/ 
+
+
+v6: ascon128av12
+
+a. Design goal
+
+Support for authenticated encryption, decryption, and hashing.
+Performs 4 permutation rounds per clock cycle.
+No BRAMs, no DSP units.
+All RAMs using asynchronous read.
+
+b. Supported maximum sizes of inputs
+
+unlimited
+
+c. Reference software implementation
+
+Implementations/crypto_aead/ascon128av12/ref
+in https://csrc.nist.gov/CSRC/media/Projects/lightweight-cryptography/documents/round-2/submissions-rnd2/ascon.zip
+
+d. Non-default values of generics and constants
+
+Use the sources from:
+src_rtl/v6
+src_tb/v6
+
+LWC_TB.vhd:
+Make sure the correct KAT file path is commented in.
+
+e. Block sizes
+
+AD block size = 128 bits
+Plaintext/Ciphertext block size = 128 bits
+Hash block size = 64 bits
+
+f. Execution times
+
+Execution time of authenticated encryption (32-bit interface):
+4                                  # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//4)                          # init process
++ 1                                # init key add
++ (8//4+4)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(8//4))          # absorb + process incomplete AD block
++ ((Na>0)|(Nm>0)|(Inm>0))*(Ina==0) # absorb empty AD block with padding realize that there is no AD but MSG
++ 1                                # domain seperation
++ (8//4+4)*Nm                      # absorb + process complete MSG blocks
++ Inm*((Blm+3)//4)                 # absorb incomplete MSG block
++ (Inm==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//4)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
+
+Execution time of authenticated decryption (32-bit interface):
++ 4                                # idle
++ 4                                # store key
++ 6                                # store nonce (+ preprocessor delay)
++ 1                                # init state setup
++ (12//4)                          # init process
++ 1                                # init key add
++ (8//4+4)*Na                      # absorb + process complete AD blocks
++ Ina*((Bla+3)//4+(8//4))          # absorb + process incomplete AD block
++ ((Na>0)|(Nc>0)|(Inc>0))*(Ina==0) # absorb empty AD block with padding / realize that there is no AD but MSG
++ 1                                # domain seperation
++ (8//4+4)*Nc                      # absorb + process complete MSG blocks
++ Inc*((Blc+3)//4)                 # absorb incomplete MSG block
++ (Inc==0)                         # absorb empty MSG block with padding
++ 1                                # final key add 1
++ (12//4)                          # final process
++ 1                                # final key add 2
++ 4                                # extract tag / verify tag
++ 1                                # wait ack (only decryption)
+
+Execution time of hashing (32-bit interface):
+3                                  # idle
++ 1                                # init hash
++ (12//4)                          # init process
++ (12//4+2)*Nh                     # absorb + process complete Hash blocks
++ Inh*((Blh+3)//4+(12//4))         # absorb + process incomplete Hash block
++ (Inh==0)*(12//4+1)               # absorb empty Hash block with padding
++ (36//4)+8                        # extract Hash
+
+g. Latencies
+
+Latency of authenticated encryption:
+30
+
+Latency of authenticated decryption:
+31
+
+h. Difference between execution times for a new key and the same key
+0
