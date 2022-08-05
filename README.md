@@ -1,4 +1,4 @@
-#  NIST LWC Hardware API reference implementation of [Ascon v1.2](ascon.iaik.tugraz.at)
+#  NIST LWC Hardware Reference Implementation of [Ascon v1.2](ascon.iaik.tugraz.at)
 
 - Hardware Design Group: Institute of Applied Information Processing and Communications, Graz, Austria
 - Primary Hardware Designers:
