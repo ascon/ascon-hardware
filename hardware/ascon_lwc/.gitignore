@@ -1,0 +1,10 @@
+failed_test_vectors.txt
+generated_config/
+generated_srcs/
+generated_tv/
+lwc_tb
+testall_logs/
+testall_results/
+timing.csv
+timing.txt
+

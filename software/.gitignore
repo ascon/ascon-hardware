@@ -1,0 +1,9 @@
+cryptotvgen/cryptotvgen/__pycache__/
+cryptotvgen/build/
+cryptotvgen/cryptotvgen.egg-info/
+cryptotvgen/dist/
+cryptotvgen/cryptotvgen.log
+prepare_src/crypto_aead/
+prepare_src/crypto_hash/
+prepare_src/log.prepare
+prepare_src/Makefile.paths

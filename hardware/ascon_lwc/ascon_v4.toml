@@ -1,0 +1,56 @@
+name = "ascon_v4"
+description = "Implementation of Ascon-128 and Ascon-Hash with W=32 and CCW=32"
+author = "Robert Primas"
+url = "https://ascon.iaik.tugraz.at/"
+license = "GNU General Public License (GPLv4)"
+
+[language]
+vhdl.standard = "2008"
+vhdl.synopsys = false
+
+[rtl]
+sources = [
+	"src_rtl/v4/config_v4.vhd",
+	"src_rtl/LWC/NIST_LWAPI_pkg.vhd",
+	"src_rtl/v4/design_pkg.vhd",
+	"src_rtl/LWC/fwft_fifo.vhd",
+	"src_rtl/LWC/StepDownCountLd.vhd",
+	"src_rtl/LWC/data_piso.vhd",
+	"src_rtl/LWC/data_sipo.vhd",
+	"src_rtl/LWC/key_piso.vhd",
+	"src_rtl/v4/CryptoCore.vhd",
+	"src_rtl/LWC/PostProcessor.vhd",
+	"src_rtl/LWC/PreProcessor.vhd",
+	"src_rtl/LWC/LWC.vhd",
+]
+top = 'LWC'
+clock.port = "clk"
+
+[tb]
+sources = [
+    "src_tb/v4/LWC_TB_compatibility_pkg.vhd",
+    "src_tb/v4/LWC_TB.vhd"
+]
+top = 'LWC_TB'
+
+[tb.generics]
+G_FNAME_PDI.file = "KAT/v4/pdi.txt"
+G_FNAME_SDI.file = "KAT/v4/sdi.txt"
+G_FNAME_DO.file = "KAT/v4/do.txt"
+G_TEST_MODE = 0 # 0: no stall, 1: stall both inputs and output
+G_MAX_FAILURES = 0
+G_TIMEOUT_CYCLES = 1000
+G_PDI_STALLS = 7
+G_SDI_STALLS = 13
+G_DO_STALLS = 21
+G_RANDOM_STALL = true # true
+
+[lwc]
+aead.algorithm = "ascon128v12"
+
+ports.pdi.bit_width = 32
+ports.sdi.bit_width = 32
+
+[sca_protection]
+target = ["none"]
+

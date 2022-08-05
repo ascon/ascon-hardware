@@ -1,0 +1,43 @@
+A. Hardware description language used
+
+    VHDL
+
+B. Type of implementation
+
+    Lightweight
+
+C. Use of hardware description language source files provided as a part of the 
+LWC Development Package
+    
+    File name                       | Used  | Release number 	| Functional modifications 
+                                    | (Y/N) |                	| (Y/N)                    
+    =========================================================================
+    data_piso.vhd                   | Y     | v1.1.0            |  N  
+    data_sipo.vhd                   | Y     | v1.1.0            |  N 
+    fwft_fifo.vhd                   | Y     | v1.1.0            |  N 
+    key_piso.vhd                    | Y     | v1.1.0            |  N 
+    LWC_TB.vhd                      | Y     | v1.1.0            |  N 
+    LWC.vhd                         | Y     | v1.1.0            |  N 
+    NIST_LWAPI_pkg.vhd              | Y     | v1.1.0            |  N 
+    PreProcessor.vhd                | Y     | v1.1.0            |  N 
+    PostProcessor.vhd               | Y     | v1.1.0            |  N 
+    StepDownCountLd.vhd             | Y     | v1.1.0            |  N 
+    design_pkg.vhd                  | Y     | v1.1.0            |  N                       
+    std_logic_1164_additions.vhd    | Y     | v1.1.0            |  N    
+    
+D. Supported types and order of segment types
+
+    a. input to encryption          npub, ad, pt
+    b. output from encryption       ct, tag
+    c. input to decryption          npub, ad, ct, tag    
+    d. output from decryption       pt
+    e. input to hash                data
+    f. output from hash             message digest
+
+E. Deviations from the LWC API v1.1.0 specification
+    
+    Minimum compliance criteria        N/A
+    Interface                          N/A
+    Communication Protocol             N/A
+    Timing Characteristics             N/A
+
