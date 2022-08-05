@@ -48,4 +48,6 @@ Ascon has been selected as the primary choice for lightweight authenticated encr
   - `rm -r ../../../hardware/ascon_lwc/KAT/v1`
   - `mv testvectors/v1 ../../../hardware/ascon_lwc/KAT`
 - Execute VHDL testbench for v1:
+  - `cd ../../../hardware/ascon_lwc`
   - `make v1`
+
