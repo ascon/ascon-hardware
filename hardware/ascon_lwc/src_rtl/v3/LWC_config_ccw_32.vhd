@@ -1,0 +1,1 @@
+../v1/LWC_config_ccw_32.vhd

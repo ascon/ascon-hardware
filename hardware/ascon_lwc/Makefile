@@ -6,6 +6,7 @@ GHDL_ELAB_OPTS := --mb-comments
 GHDL_WARNS := -Wbinding -Wreserved -Wlibrary -Wvital-generic -Wdelayed-checks -Wbody -Wspecs -Wunused --warn-no-runtime-error
 MODULES_V1=\
 	src_rtl/v1/LWC_config_32.o\
+	src_rtl/v1/LWC_config_ascon.o\
 	src_rtl/v1/LWC_config_ccw_32.o\
 	src_rtl/v1/design_pkg.o\
 	src_rtl/LWC/NIST_LWAPI_pkg.o\
@@ -17,9 +18,11 @@ MODULES_V1=\
 	src_rtl/LWC/PostProcessor.o\
 	src_rtl/LWC/PreProcessor.o\
 	src_rtl/LWC/LWC.o\
+	src_tb/v1/LWC_config_tb.o\
 	src_tb/v1/LWC_TB
 MODULES_V1_8BIT=\
 	src_rtl/v1_8bit/LWC_config_8.o\
+	src_rtl/v1_8bit/LWC_config_ascon.o\
 	src_rtl/v1_8bit/LWC_config_ccw_8.o\
 	src_rtl/v1_8bit/design_pkg.o\
 	src_rtl/LWC/NIST_LWAPI_pkg.o\
@@ -31,9 +34,11 @@ MODULES_V1_8BIT=\
 	src_rtl/LWC/PostProcessor.o\
 	src_rtl/LWC/PreProcessor.o\
 	src_rtl/LWC/LWC.o\
+	src_tb/v1_8bit/LWC_config_tb.o\
 	src_tb/v1_8bit/LWC_TB
 MODULES_V1_16BIT=\
 	src_rtl/v1_16bit/LWC_config_16.o\
+	src_rtl/v1_16bit/LWC_config_ascon.o\
 	src_rtl/v1_16bit/LWC_config_ccw_16.o\
 	src_rtl/v1_16bit/design_pkg.o\
 	src_rtl/LWC/NIST_LWAPI_pkg.o\
@@ -45,13 +50,15 @@ MODULES_V1_16BIT=\
 	src_rtl/LWC/PostProcessor.o\
 	src_rtl/LWC/PreProcessor.o\
 	src_rtl/LWC/LWC.o\
+	src_tb/v1_16bit/LWC_config_tb.o\
 	src_tb/v1_16bit/LWC_TB
 MODULES_V2=\
-	src_rtl/v2/config_v2.o\
-	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/v2/LWC_config_32.o\
+	src_rtl/v2/LWC_config_ascon.o\
+	src_rtl/v2/LWC_config_ccw_32.o\
 	src_rtl/v2/design_pkg.o\
-	src_rtl/LWC/fwft_fifo.o\
-	src_rtl/LWC/StepDownCountLd.o\
+	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/LWC/FIFO.o\
 	src_rtl/LWC/data_piso.o\
 	src_rtl/LWC/data_sipo.o\
 	src_rtl/LWC/key_piso.o\
@@ -59,14 +66,15 @@ MODULES_V2=\
 	src_rtl/LWC/PostProcessor.o\
 	src_rtl/LWC/PreProcessor.o\
 	src_rtl/LWC/LWC.o\
-    src_tb/v2/LWC_TB_compatibility_pkg.o\
+	src_tb/v2/LWC_config_tb.o\
 	src_tb/v2/LWC_TB
 MODULES_V3=\
-	src_rtl/v3/config_v3.o\
-	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/v3/LWC_config_32.o\
+	src_rtl/v3/LWC_config_ascon.o\
+	src_rtl/v3/LWC_config_ccw_32.o\
 	src_rtl/v3/design_pkg.o\
-	src_rtl/LWC/fwft_fifo.o\
-	src_rtl/LWC/StepDownCountLd.o\
+	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/LWC/FIFO.o\
 	src_rtl/LWC/data_piso.o\
 	src_rtl/LWC/data_sipo.o\
 	src_rtl/LWC/key_piso.o\
@@ -74,14 +82,15 @@ MODULES_V3=\
 	src_rtl/LWC/PostProcessor.o\
 	src_rtl/LWC/PreProcessor.o\
 	src_rtl/LWC/LWC.o\
-    src_tb/v3/LWC_TB_compatibility_pkg.o\
+	src_tb/v3/LWC_config_tb.o\
 	src_tb/v3/LWC_TB
 MODULES_V4=\
-	src_rtl/v4/config_v4.o\
-	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/v4/LWC_config_32.o\
+	src_rtl/v4/LWC_config_ascon.o\
+	src_rtl/v4/LWC_config_ccw_32.o\
 	src_rtl/v4/design_pkg.o\
-	src_rtl/LWC/fwft_fifo.o\
-	src_rtl/LWC/StepDownCountLd.o\
+	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/LWC/FIFO.o\
 	src_rtl/LWC/data_piso.o\
 	src_rtl/LWC/data_sipo.o\
 	src_rtl/LWC/key_piso.o\
@@ -89,14 +98,15 @@ MODULES_V4=\
 	src_rtl/LWC/PostProcessor.o\
 	src_rtl/LWC/PreProcessor.o\
 	src_rtl/LWC/LWC.o\
-    src_tb/v4/LWC_TB_compatibility_pkg.o\
+	src_tb/v4/LWC_config_tb.o\
 	src_tb/v4/LWC_TB
 MODULES_V5=\
-	src_rtl/v5/config_v5.o\
-	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/v5/LWC_config_32.o\
+	src_rtl/v5/LWC_config_ascon.o\
+	src_rtl/v5/LWC_config_ccw_32.o\
 	src_rtl/v5/design_pkg.o\
-	src_rtl/LWC/fwft_fifo.o\
-	src_rtl/LWC/StepDownCountLd.o\
+	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/LWC/FIFO.o\
 	src_rtl/LWC/data_piso.o\
 	src_rtl/LWC/data_sipo.o\
 	src_rtl/LWC/key_piso.o\
@@ -104,14 +114,15 @@ MODULES_V5=\
 	src_rtl/LWC/PostProcessor.o\
 	src_rtl/LWC/PreProcessor.o\
 	src_rtl/LWC/LWC.o\
-    src_tb/v5/LWC_TB_compatibility_pkg.o\
+	src_tb/v5/LWC_config_tb.o\
 	src_tb/v5/LWC_TB
 MODULES_V6=\
-	src_rtl/v6/config_v6.o\
-	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/v6/LWC_config_32.o\
+	src_rtl/v6/LWC_config_ascon.o\
+	src_rtl/v6/LWC_config_ccw_32.o\
 	src_rtl/v6/design_pkg.o\
-	src_rtl/LWC/fwft_fifo.o\
-	src_rtl/LWC/StepDownCountLd.o\
+	src_rtl/LWC/NIST_LWAPI_pkg.o\
+	src_rtl/LWC/FIFO.o\
 	src_rtl/LWC/data_piso.o\
 	src_rtl/LWC/data_sipo.o\
 	src_rtl/LWC/key_piso.o\
@@ -119,7 +130,7 @@ MODULES_V6=\
 	src_rtl/LWC/PostProcessor.o\
 	src_rtl/LWC/PreProcessor.o\
 	src_rtl/LWC/LWC.o\
-    src_tb/v6/LWC_TB_compatibility_pkg.o\
+	src_tb/v6/LWC_config_tb.o\
 	src_tb/v6/LWC_TB
 
 v1: $(MODULES_V1)

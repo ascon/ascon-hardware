@@ -1,0 +1,1 @@
+../v1/LWC_config_32.vhd
