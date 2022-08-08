@@ -2,8 +2,4 @@ failed_testvectors.txt
 log.txt
 result.txt
 work-obj08.cf
-testall_logs/
-testall_results/
-timing.csv
-timing.txt
 
