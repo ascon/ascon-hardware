@@ -5,11 +5,10 @@ GHDL_OPT := -frelaxed-rules --warn-no-vital-generic -frelaxed $(GHDL_OPTIMIZE)
 GHDL_ELAB_OPTS := --mb-comments 
 GHDL_WARNS := -Wbinding -Wreserved -Wlibrary -Wvital-generic -Wdelayed-checks -Wbody -Wspecs -Wunused --warn-no-runtime-error
 MODULES_V1=\
-	src_rtl/v1/config_v1.o\
+	src_rtl/v1/LWC_config_32.o\
 	src_rtl/LWC/NIST_LWAPI_pkg.o\
 	src_rtl/v1/design_pkg.o\
-	src_rtl/LWC/fwft_fifo.o\
-	src_rtl/LWC/StepDownCountLd.o\
+	src_rtl/LWC/FIFO.o\
 	src_rtl/LWC/data_piso.o\
 	src_rtl/LWC/data_sipo.o\
 	src_rtl/LWC/key_piso.o\
@@ -17,7 +16,6 @@ MODULES_V1=\
 	src_rtl/LWC/PostProcessor.o\
 	src_rtl/LWC/PreProcessor.o\
 	src_rtl/LWC/LWC.o\
-    src_tb/v1/LWC_TB_compatibility_pkg.o\
 	src_tb/v1/LWC_TB
 MODULES_V1_8BIT=\
 	src_rtl/v1_8bit/config_v1_8bit.o\
