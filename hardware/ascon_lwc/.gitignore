@@ -1,8 +1,7 @@
-failed_test_vectors.txt
-generated_config/
-generated_srcs/
-generated_tv/
-lwc_tb
+failed_testvectors.txt
+log.txt
+result.txt
+work-obj08.cf
 testall_logs/
 testall_results/
 timing.csv

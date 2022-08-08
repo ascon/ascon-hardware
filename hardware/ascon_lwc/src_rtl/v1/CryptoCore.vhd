@@ -2,7 +2,7 @@
 --! @file       CryptoCore.vhd
 --! @brief      Implementation of Ascon-128, Ascon-128a and Ascon-Hash.
 --!
---! @author     Robert Primas <rprimas@protonmail.com>
+--! @author     Robert Primas <rprimas@proton.me>
 --! @copyright  Copyright (c) 2020 IAIK, Graz University of Technology, AUSTRIA
 --!             All rights Reserved.
 --! @license    This project is released under the GNU Public License.          

@@ -170,4 +170,3 @@ v6: $(MODULES_V6)
 clean:
 	$(info Cleaning up...)
 	rm -f *.o *_TB work*.cf e*.lst failed_testvectors.txt result.txt log.txt lwc_tb timing.txt timing.csv
-
