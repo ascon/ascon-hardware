@@ -10,11 +10,12 @@ vhdl.synopsys = false
 
 [rtl]
 sources = [
-	"src_rtl/v1_8bit/config_v1_8bit.vhd",
-	"src_rtl/LWC/NIST_LWAPI_pkg.vhd",
+	"src_rtl/v1_8bit/LWC_config_32.vhd",
+	"src_rtl/v1_8bit/LWC_config_ascon.vhd",
+	"src_rtl/v1_8bit/LWC_config_ccw_32.vhd",
 	"src_rtl/v1_8bit/design_pkg.vhd",
-	"src_rtl/LWC/fwft_fifo.vhd",
-	"src_rtl/LWC/StepDownCountLd.vhd",
+	"src_rtl/LWC/NIST_LWAPI_pkg.vhd",
+	"src_rtl/LWC/FIFO.vhd",
 	"src_rtl/LWC/data_piso.vhd",
 	"src_rtl/LWC/data_sipo.vhd",
 	"src_rtl/LWC/key_piso.vhd",
@@ -22,14 +23,16 @@ sources = [
 	"src_rtl/LWC/PostProcessor.vhd",
 	"src_rtl/LWC/PreProcessor.vhd",
 	"src_rtl/LWC/LWC.vhd",
+	"src_tb/v1_8bit/LWC_config_tb.vhd",
+	"src_tb/v1_8bit/LWC_TB.vhd"
 ]
 top = 'LWC'
 clock.port = "clk"
 
 [tb]
 sources = [
-    "src_tb/v1_8bit/LWC_TB_compatibility_pkg.vhd",
-    "src_tb/v1_8bit/LWC_TB.vhd"
+    "src_tb/v1_8bit_8bit/LWC_TB_compatibility_pkg.vhd",
+    "src_tb/v1_8bit_8bit/LWC_TB.vhd"
 ]
 top = 'LWC_TB'
 

@@ -19,7 +19,7 @@ make clean
 for i in "${arr[@]}"
 do
 	echo "Running testbench for $i..."
-	res=$(make $i | grep "::")
+	res=$(make $i | grep "\[")
 	if [[ $res == *"PASS"* ]]; then
 		printf "${GREEN}PASS!${NC}\n"
 	else
