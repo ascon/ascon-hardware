@@ -44,13 +44,11 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+use work.LWC_config_ccw.all;
 use work.design_pkg.all;
 use work.NIST_LWAPI_pkg.all;
 
 --*** SCA ***--
---/+
--- entity LWC_SCA is
---/-
 entity LWC is
     generic(
         G_DO_FIFO_DEPTH : natural := 1  -- 0: disable output FIFO, 1 or 2 (elastic FIFO)

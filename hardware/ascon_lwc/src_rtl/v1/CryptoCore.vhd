@@ -28,8 +28,10 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 USE ieee.std_logic_misc.ALL;
+
+use work.LWC_config_ccw.all;
+use work.design_pkg.all;
 USE work.NIST_LWAPI_pkg.ALL;
-USE work.design_pkg.ALL;
 
 ENTITY Asconp IS
     PORT (
@@ -136,8 +138,10 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 USE ieee.std_logic_misc.ALL;
+
+use work.LWC_config_ccw.all;
+use work.design_pkg.all;
 USE work.NIST_LWAPI_pkg.ALL;
-USE work.design_pkg.ALL;
 
 ENTITY CryptoCore IS
     PORT (

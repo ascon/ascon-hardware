@@ -16,6 +16,9 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 
+use work.LWC_config.all;
+use work.LWC_config_ccw.all;
+
 package design_pkg is
 
     constant UROL : INTEGER RANGE 0 TO 4 := 1; -- v1 or v2
@@ -58,9 +61,6 @@ package design_pkg is
     --! design parameters needed by the PreProcessor, PostProcessor, LWC, and CryptoCore
     constant TAG_SIZE        : integer := 128; --! Tag size
     constant HASH_VALUE_SIZE : integer := 256; --! Hash value size
-    constant CCW             : integer := 32; --! bdo/bdi width
-    constant CCSW            : integer := 32; --! key width
-    constant CCWdiv8         : integer := CCW/8; -- derived from parameters above
     constant NPUB_SIZE       : integer := 128; --! Npub size
 
     --! Calculate the number of I/O words for a particular size
