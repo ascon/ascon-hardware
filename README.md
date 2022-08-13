@@ -1,12 +1,12 @@
-#  NIST LWC Hardware Reference Implementation of [Ascon v1.2](ascon.iaik.tugraz.at)
+#  NIST LWC Hardware Reference Design of [Ascon v1.2](https://ascon.iaik.tugraz.at)
 
 - Hardware Design Group: Institute of Applied Information Processing and Communications, Graz, Austria
 - Primary Hardware Designers:
-  - Robert Primas (https://rprimas.github.io, rprimas@proton.me),
+  - Robert Primas (https://rprimas.github.io, rprimas 'at' proton.me)
 - LWC candidate: Ascon
-- LWC Hardware API version: 1.2
+- LWC Hardware API version: 1.2.0
 
-Ascon is a family of authenticated encryption and hashing algorithms designed to be lightweight and easy to implement, even with added countermeasures against side-channel attacks.
+[Ascon](https://ascon.iaik.tugraz.at) is a family of authenticated encryption and hashing algorithms designed to be lightweight and easy to implement, even with added countermeasures against side-channel attacks.
 Ascon has been selected as the primary choice for lightweight authenticated encryption in the final portfolio of the [CAESAR competition](https://competitions.cr.yp.to/caesar.html) (2014-2019) and is currently competing as a finalist in the NIST standardization effort for [Lightweight Cryptography](https://csrc.nist.gov/Projects/lightweight-cryptography/finalists) (2019-).
 
 ## Available Variants
@@ -33,7 +33,7 @@ Ascon has been selected as the primary choice for lightweight authenticated encr
   - `cd hardware/ascon_lwc`
   - `make v1`
 
-## Generating New Testvectors from Software
+## Generating new Testvectors from Software
 
 - Install testvector generation scripts:
   - `pip install software/cryptotvgen`
@@ -43,11 +43,19 @@ Ascon has been selected as the primary choice for lightweight authenticated encr
   - `cd software/cryptotvgen/examples`
 - Run (and optionally modify) a testvector generation script:
   - `python genkat_v1.py`
-- Replace existing testvectors (KAT) of v1 with the newley generated ones:
+- Replace existing testvectors (KAT) of v1 with the newly generated ones:
   - `mv testvectors/v1_32 testvectors/v1`
   - `rm -r ../../../hardware/ascon_lwc/KAT/v1`
   - `mv testvectors/v1 ../../../hardware/ascon_lwc/KAT`
 - Execute VHDL testbench for v1:
   - `cd ../../../hardware/ascon_lwc`
   - `make v1`
+
+## Acknowledgements
+
+This code base is based on version 1.2.0 of the [LWC Hardware API Development Package](https://github.com/GMUCERG/LWC) that was mainly developed by the Cryptographic Engineering Research Group [(CERG)](https://cryptography.gmu.edu) at George Mason University (GMU).
+
+Parts of the development package have been developed by the Department of Electrical and Computer Engineering [(ECE)](https://www.ei.tum.de/en/ei/welcome/) at Technical University of Munich (TUM).
+
+The Ascon-specific modifications have been developed by the Institute of Applied Information Processing and Communications [(IAIK)](https://iaik.tugraz.at/) at Graz University of Technology (TUG).
 
