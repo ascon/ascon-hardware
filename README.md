@@ -8,6 +8,8 @@
 
 [Ascon](https://ascon.iaik.tugraz.at) is a family of authenticated encryption and hashing algorithms designed to be lightweight and easy to implement, even with added countermeasures against side-channel attacks. Ascon has been selected as new standard for lightweight cryptography in the [NIST Lightweight Cryptography competition](https://www.nist.gov/news-events/news/2023/02/nist-selects-lightweight-cryptography-algorithms-protect-small-devices) (2019–2023). Ascon has also been selected as the primary choice for lightweight authenticated encryption in the final portfolio of the [CAESAR competition](https://competitions.cr.yp.to/caesar.html) (2014-2019).
 
+*This code base contains a VHDL implementation of Ascon. I recently also published a Verilog implementation of Ascon that uses a similar but simpler crypto core interface and has a considerably reduced code size. Also, the Verilog implementation comes with a more permissive CC0 license. The Verilog implementation is available [here](https://github.com/rprimas/ascon-verilog).*
+
 ## Available Variants
 
 - **v1** : `ascon128v12 + asconhashv12, 32-bit interface, 1 permutation round per clock cycle`
